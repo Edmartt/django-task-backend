@@ -41,7 +41,7 @@ python -m venv env
 activate virtual environment
 
 ```
-. env/bin/activate # On Windows . env/Scripts/activate.ps1
+. env/bin/activate 
 ```
 install dependencies
 
