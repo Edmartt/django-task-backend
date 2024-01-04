@@ -1,0 +1,2 @@
+export JWT_SECRET_KEY=<some random string>
+export REFRESH_TOKEN_KEY=<another random string>
