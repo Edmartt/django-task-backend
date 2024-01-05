@@ -7,7 +7,6 @@ from django.shortcuts import get_object_or_404
 from django.http import Http404
 import json
 from .models import Tasks
-from .decorators import auth_by_key
 
 
     
