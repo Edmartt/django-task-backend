@@ -5,7 +5,8 @@ from django.conf import settings
 def create_jwt(user_id: int):
     payload = {
         'user_id': str(user_id),
-        'exp': datetime.utcnow() + timedelta(seconds=180),
+        'token_type': 'access_token',
+        'exp': datetime.utcnow() + timedelta(minutes=1),
         'iat': datetime.utcnow()      
     }
     
@@ -17,7 +18,8 @@ def create_jwt(user_id: int):
 def create_refresh_token(user_id: int):
     refresh_payload = {
         'user_id': user_id,
-        'exp': datetime.utcnow() + timedelta(hours=1),
+        'token_type': 'refresh_token',
+        'exp': datetime.utcnow() + timedelta(minutes=6),
         'iat': datetime.utcnow()
     }
     
