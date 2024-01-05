@@ -26,7 +26,7 @@ class JWTMiddleware:
         try:
             decoded_payload = jwt.decode(token, secret_key, algorithms=['HS256'])
             request.user_id = decoded_payload.get('user_id')
-        except jwt.ExpiredSignature:
+        except jwt.ExpiredSignatureError:
             return JsonResponse({'error': 'token expired'}, status=401)
         except jwt.InvalidTokenError:
             return JsonResponse({'error': 'invalid token'}, status=401)
