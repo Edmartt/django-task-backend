@@ -32,7 +32,7 @@ class UserLogin(View):
         try:
             current_user =  User.objects.get(username=username)
         except User.DoesNotExist:
-            return JsonResponse({'response': 'wrong user or password'})
+            return JsonResponse({'response': 'wrong user or password'}, status=404)
         
         password = request_data.get('password')
         
