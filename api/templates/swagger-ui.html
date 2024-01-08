@@ -1,0 +1,23 @@
+<!-- swagger_ui.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swagger UI</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'swagger-ui.css' %}">
+</head>
+<body>
+    <div id="swagger-ui"></div>
+    <script src="{% static 'swagger-ui-bundle.js' %}"></script>
+    <script>
+        window.onload = function() {
+            const ui = SwaggerUIBundle({
+                url: "{% static 'django_task_backend.yaml' %}", 
+                dom_id: '#swagger-ui',
+            });
+        }
+    </script>
+</body>
+</html>

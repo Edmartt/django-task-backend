@@ -1,6 +1,7 @@
 import json
 import jwt
 from django.conf import settings
+from django.shortcuts import render
 from django.contrib.auth.hashers import make_password, check_password
 from django.views.decorators.http import require_http_methods
 from django.utils.decorators import method_decorator
@@ -72,3 +73,10 @@ class TokenRefresh(View):
         new_access_token = create_jwt(user_id)
 
         return JsonResponse({'response': {'new_access_token': new_access_token}}, status=200)
+
+
+class SwaggerView(View):
+
+    def get(self, request):
+        return render(request, 'swagger-ui.html')
+
