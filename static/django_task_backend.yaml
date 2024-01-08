@@ -1,0 +1,201 @@
+openapi: 3.0.3
+info:
+  title: Django Task Backend - OpenAPI 3.0
+  version: 1.0.0
+  description: Swagger docs for django task backend
+  
+servers:
+  - url: http://{host}:{port}/api/v1
+    description: Development sever
+    variables:
+      host:
+        default: localhost
+      port:
+        default: '8000'
+paths:
+  /users/login:
+    summary: users authentication
+    description: allows any registered user to authenticate for getting JWT
+    post:
+      summary: sends body for users authentication
+      description: ''
+      operationId: auth-users
+      parameters:
+        - in: body
+          name: user
+          description: The user to authenticate.
+          schema:
+            type: object
+            required:
+              - username
+              - password
+            properties:
+              username:
+                type: string
+              password:
+                type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              examples:
+                response:
+                  value: >-
+                    {"response":{"access_token":"238798ye2e3e97823",
+                    "refresh_token": "hj2e23y9848722872308234"}}
+        "404":
+          description: Not found
+          content:
+            application/json:
+              examples:
+                response:
+                  value: >-
+                    {"response": "wrong user or password"}
+        
+      tags:
+        - Users
+  /users/signup:
+    summary: Allows to register users
+    post:
+      summary: allows to register users
+      description: ''
+      operationId: signup
+      parameters:
+        - in: body
+          name: user
+          description: The user to authenticate.
+          schema:
+            type: object
+            required:
+              - username
+              - password
+            properties:
+              username:
+                type: string
+              password:
+                type: string
+      responses:
+        default:
+          description: Response
+          content:
+            application/json:
+              examples:
+                response:
+                  value: '{"response": "user_created"}'
+      tags:
+        - Users
+        
+  /users/{user_id}/tasks:
+    summary: get all users asociated tasks
+    get:
+      security:
+       - bearerAuth: []
+      summary: retrieves all tasks for an user
+      description: ''
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              examples:
+                tasks:
+                  value: >-
+                    {"tasks": [{"title": "new title 3", "description": "my new
+                    description 3"}, {"title": "my new title xxxxxx",
+                    "description": "this is a test task called xxxxxxxxxx"}]}
+      tags:
+        - Tasks
+    
+    post:
+      security:
+         - bearerAuth: []
+      summary: allows to create new tasks
+      description: ''
+      parameters:
+       - in: path
+         name: user_id     
+         required: true
+         schema:
+          type: string
+
+       - in: body
+         name: task
+         description: The task to create.
+         schema:
+           type: object
+           required:
+             - title
+             - description
+           properties:
+             title:
+               type: string
+             description:
+               type: string
+      operationId: tasks
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              examples:
+                response:
+                  value: '{"response": {"id": 1, "message": "created"}}'
+        "401":
+          description: Not Authorized
+          content:
+            application/json:
+              examples:
+                response:
+                  value: {"response": "not authorized"}
+      tags:
+        - Tasks 
+        
+        
+  /users/{user_id}/tasks/{task_id}:
+    summary: get all users asociated tasks
+    get:
+      security:
+       - bearerAuth: []
+      summary: retrieves all tasks for an user
+      description: ''
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: task_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              examples:
+                tasks:
+                  value: >-
+                    {"tasks": [{"title": "new title 3", "description": "my new
+                    description 3"}, {"title": "my new title xxxxxx",
+                    "description": "this is a test task called xxxxxxxxxx"}]}
+      tags:
+        - Tasks
+  
+     
+        
+        
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
