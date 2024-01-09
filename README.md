@@ -57,3 +57,5 @@ python manage.py runserver
 
 
 #### Note
+
+api documentation in: `/api/v1/swagger`
