@@ -54,13 +54,14 @@ class TokenRefresh(View):
 
     @method_decorator(require_http_methods(['POST']))
     def post(self, request):
-        refresh_token = request.headers.get('Authorization', '').split(' ')[-1]
+        request_data = json.loads(request.body)
+        refresh_token = request_data.get('refresh_token')
 
         try:
             decoded_payload = jwt.decode(
                 refresh_token, settings.REFRESH_TOKEN_KEY, algorithms=['HS256'])
             token_type = decoded_payload.get('token_type')
-        except jwt.ExpiredSignature:
+        except jwt.ExpiredSignatureError:
             return JsonResponse({'response': 'token expired'}, status=401)
 
         except jwt.InvalidTokenError:
