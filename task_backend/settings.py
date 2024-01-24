@@ -28,6 +28,7 @@ DEBUG = True
 #custom env vars
 import os
 from api.tasks.jwt_middleware import JWTMiddleware
+from api.tasks.cors import CorsMiddleware
 
 JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY')
 REFRESH_TOKEN_KEY = os.environ.get('REFRESH_TOKEN_KEY')
@@ -51,11 +52,12 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-   # 'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'api.tasks.jwt_middleware.JWTMiddleware'
+    'api.tasks.jwt_middleware.JWTMiddleware',
+    'api.tasks.cors.CorsMiddleware'
 ]
 
 ROOT_URLCONF = 'task_backend.urls'
