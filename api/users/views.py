@@ -9,17 +9,34 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.views import View
 from .utils.custom_jwt import create_jwt, create_refresh_token
+from .utils.password_checks import PasswordChecker
 
+#pass_checker_instance = PasswordChecker()
 
 class UserRegistration(View):
+    pass_checker = None
+    
+    def __init__(self):
+        pass
+    
     @method_decorator(require_http_methods(['POST']))
     def post(self, request):
 
         request_data = json.loads(request.body)
         username = request_data.get('username')
         password = request_data.get('password')
+        compared_password = request_data.get('compared_password')
 
-        if username and password:
+        if username and password and compared_password:
+            if not self.pass_checker.check_password_length(password) and not self.pass_checker.check_password_length(compared_password):
+                return JsonResponse({'response': 'password allowed minumun 8 character length'}, status=400)
+            
+            if not self.pass_checker.compare_password(password, compared_password):
+                return JsonResponse({'response': 'password are not equeal'}, status=400)
+            
+            if not self.pass_checker.check_password_chars(password):
+                return JsonResponse({'response': 'password needs to be stronger with uppercase, lowercase and numbers'}, status=400)
+            
             new_user = User(username=username,
                             password=make_password(password))
             new_user.save()
