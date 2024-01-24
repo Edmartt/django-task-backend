@@ -14,7 +14,7 @@ class JWTMiddleware:
 
         base_not_protected_route = '/api/v1/users/'
         not_protected_routes = [base_not_protected_route +
-                                'login', base_not_protected_route+'signup', '/api/v1/swagger'] # list for unprotected routes. I.E login, signup, api docs
+                                'login', base_not_protected_route+'signup', base_not_protected_route+'refresh-token','/api/v1/swagger'] # list for unprotected routes. I.E login, signup, api docs
 
         if request.path in not_protected_routes:
             response = self.get_response(request)
