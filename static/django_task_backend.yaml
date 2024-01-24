@@ -17,23 +17,22 @@ paths:
     summary: users authentication
     description: allows any registered user to authenticate for getting JWT
     post:
-      summary: sends body for users authentication
-      description: ''
-      operationId: auth-users
-      parameters:
-        - in: body
-          name: user
-          description: The user to authenticate.
-          schema:
-            type: object
-            required:
-              - username
-              - password
-            properties:
-              username:
-                type: string
-              password:
-                type: string
+      operationId: login
+      requestBody:
+        description: The user to log in.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - password
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
       responses:
         "200":
           description: Success
@@ -61,20 +60,21 @@ paths:
       summary: allows to register users
       description: ''
       operationId: signup
-      parameters:
-        - in: body
-          name: user
-          description: The user to authenticate.
-          schema:
-            type: object
-            required:
-              - username
-              - password
-            properties:
-              username:
-                type: string
-              password:
-                type: string
+      requestBody:
+        description: The user to create.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - password
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
       responses:
         default:
           description: Response
@@ -85,6 +85,34 @@ paths:
                   value: '{"response": "user_created"}'
       tags:
         - Users
+
+  /users/refresh-token:
+    post:
+      summary: refresh the current JWT
+      requestBody:
+        description: refresh token sent in body.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - refresh_token
+              properties:
+                refresh_token:
+                  type: string
+         
+      responses: 
+
+        '200':
+          description: success
+          content:
+            application/json:
+              examples:
+                response:
+                  value: '{"response": {"new_access_token": 12381082321083821}}'
+      tags:
+       - Users
         
   /users/{user_id}/tasks:
     summary: get all users asociated tasks
@@ -118,6 +146,22 @@ paths:
          - bearerAuth: []
       summary: allows to create new tasks
       description: ''
+      requestBody:
+        description: The task to create.
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - title
+                - description
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+      
       parameters:
        - in: path
          name: user_id     
@@ -125,20 +169,7 @@ paths:
          schema:
           type: string
 
-       - in: body
-         name: task
-         description: The task to create.
-         schema:
-           type: object
-           required:
-             - title
-             - description
-           properties:
-             title:
-               type: string
-             description:
-               type: string
-      operationId: tasks
+      
       responses:
         "201":
           description: Created
