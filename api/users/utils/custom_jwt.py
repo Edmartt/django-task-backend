@@ -5,7 +5,7 @@ from django.conf import settings
 
 def create_jwt(user_id: int):
     payload = {
-        'user_id': user_id,
+        'user_id': str(user_id),
         'token_type': 'access_token',
         'exp': datetime.utcnow() + timedelta(minutes=1),
         'iat': datetime.utcnow()
