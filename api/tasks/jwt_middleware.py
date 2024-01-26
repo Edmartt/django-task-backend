@@ -1,5 +1,6 @@
 from django.http import JsonResponse
 from django.conf import settings
+from django.urls import reverse
 import jwt
 
 
@@ -16,7 +17,7 @@ class JWTMiddleware:
         not_protected_routes = [base_not_protected_route +
                                 'login', base_not_protected_route+'signup', base_not_protected_route+'refresh-token','/api/v1/swagger'] # list for unprotected routes. I.E login, signup, api docs
 
-        if request.path in not_protected_routes:
+        if request.path in not_protected_routes or request.path.startswith(reverse('admin:index')):
             response = self.get_response(request)
             return response
 
