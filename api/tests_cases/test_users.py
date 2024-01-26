@@ -1,4 +1,10 @@
+from datetime import datetime, timedelta
+import jwt
 from django.test import TestCase
+from django.conf import settings
+from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
+from ..users.utils.custom_jwt import create_jwt
 from api.users.utils.password_checks import PasswordChecker
 
 class UserTests(TestCase):
@@ -64,4 +70,13 @@ class UserTests(TestCase):
         
         assert not all([weak_length_result, weak_equals_result, weak_pattern_result])
         
+    def test_create_jwt(self):
+        user = User(id=12, username='new_user', password=make_password('123456'))
+        
+        test_token = create_jwt(user_id=user.id)
+        decoded_token = jwt.decode(test_token, settings.JWT_SECRET_KEY, algorithms=['HS256'])
+        
+        self.assertIsNotNone(test_token)
+        self.assertEqual(decoded_token['user_id'], 12)
+        self.assertEqual(decoded_token['token_type'], 'access_token')
         
