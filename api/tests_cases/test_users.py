@@ -77,6 +77,6 @@ class UserTests(TestCase):
         decoded_token = jwt.decode(test_token, settings.JWT_SECRET_KEY, algorithms=['HS256'])
         
         self.assertIsNotNone(test_token)
-        self.assertEqual(decoded_token['user_id'], 12)
+        self.assertEqual(decoded_token['user_id'], '12')
         self.assertEqual(decoded_token['token_type'], 'access_token')
         
