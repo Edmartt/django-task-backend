@@ -12,7 +12,7 @@ def create_jwt(user_id: int):
     }
 
     secret_key = settings.JWT_SECRET_KEY
-    token = jwt.encode(payload, secret_key, algorithm='HS256')
+    token = jwt.encode(payload, secret_key, algorithm='RS256')
 
     return token
 
@@ -26,6 +26,6 @@ def create_refresh_token(user_id: int):
     }
 
     secret_key = settings.REFRESH_TOKEN_KEY
-    refresh_token = jwt.encode(refresh_payload, secret_key, algorithm='HS256')
+    refresh_token = jwt.encode(refresh_payload, secret_key, algorithm='RS256')
 
     return refresh_token
