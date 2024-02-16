@@ -73,7 +73,7 @@ class UserTests(TestCase):
     def test_create_jwt(self):
         user = User(id=12, username='new_user', password=make_password('123456'))
         
-        test_token = create_jwt(user_id=user.id)
+        test_token = create_jwt(user_id=str(user.id))
         decoded_token = jwt.decode(test_token, settings.JWT_SECRET_KEY, algorithms=['HS256'])
         
         self.assertIsNotNone(test_token)
