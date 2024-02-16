@@ -25,6 +25,7 @@ jobs:
       env:
           JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
       run: |
+        echo "Secret value: $JWT_SECRET_KEY"
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Run Tests
