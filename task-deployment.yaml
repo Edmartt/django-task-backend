@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: task-backend-deployment
+  namespace: dev
+spec:
+  selector:
+    matchLabels:
+      app: task-backend
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: task-backend
+    spec:
+      containers:
+        - name: task-backend
+          image: edmartt/django-backend:v1.0
+          ports:
+            - containerPort: 8000
+          env:
+            - name: JWT_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_SECRET_KEY
