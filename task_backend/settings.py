@@ -27,6 +27,14 @@ DEBUG = True
 
 #custom env vars
 import os
+
+DJANGO_ENV = os.getenv('DJANGO_ENV', 'dev')
+
+if DJANGO_ENV == 'prod':
+    from .settings_prod import *
+else:
+    from .settings_dev import *
+
 from api.tasks.jwt_middleware import JWTMiddleware
 from api.tasks.cors import CorsMiddleware
 
