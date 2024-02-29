@@ -8,6 +8,7 @@ DB_PASSWORD = os.getenv('DB_PASSWORD')
 DB_HOST = os.getenv('DB_HOST')
 DB_PORT = os.getenv('DB_PORT')
 JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY')
+REFRESH_TOKEN_KEY = os.getenv('REFRESH_TOKEN_KEY')
 
 DATABASES = {
         'default':{
