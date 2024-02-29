@@ -37,11 +37,9 @@ else:
 
 from api.tasks.jwt_middleware import JWTMiddleware
 from api.tasks.cors import CorsMiddleware
+from api.doc_middleware import SwaggerAccess
 
-JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY')
-REFRESH_TOKEN_KEY = os.environ.get('REFRESH_TOKEN_KEY')
-
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '192.168.67.2']
 
 
 # Application definition
@@ -65,7 +63,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'api.tasks.jwt_middleware.JWTMiddleware',
-    'api.tasks.cors.CorsMiddleware'
+    'api.tasks.cors.CorsMiddleware',
+    'api.doc_middleware.SwaggerAccess'
 ]
 
 ROOT_URLCONF = 'task_backend.urls'
@@ -91,17 +90,6 @@ STATICFILES_DIRS = [
 ]
 
 WSGI_APPLICATION = 'task_backend.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
 
 
 # Password validation
