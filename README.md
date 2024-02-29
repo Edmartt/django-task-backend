@@ -51,6 +51,13 @@ pip install -r requirements.txt
 
 set environment variables following the [.envrc.example](https://github.com/Edmartt/django-task-backend/blob/main/.envrc.example) file and run
 
+apply migrations
+```
+python manage.py migrate
+```
+
+run
+
 ```
 python manage.py runserver
 ```
